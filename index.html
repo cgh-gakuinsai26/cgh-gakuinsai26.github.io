@@ -294,7 +294,7 @@
     if (g !== currentGrade) {
       currentGrade = g;
       var h = document.createElement("h2");
-      h.textContent = g + "年";
+      h.textContent = g.replace(/[0-9]/g, function (d) { return String.fromCharCode(d.charCodeAt(0) + 0xFEE0); }) + "年";
       classPanel.appendChild(h);
       ul = grid();
       classPanel.appendChild(ul);
