@@ -211,6 +211,35 @@
     .curtain-wrap, .valance, .sparkle { display: none; }
     .splash-poster, .splash-spot { animation-duration: .01s; animation-delay: 0s; }
   }
+  /* 映画館ロビーの掲示風: 照明・金の額縁・名前のプレート */
+  main { padding-top: 4px; }
+  .grid { gap: 22px 16px; }
+  .grid > li { position: relative; padding-top: 14px; }
+  .grid > li::before {  /* 上からの照明 */
+    content: ""; position: absolute; top: -6px; left: 10%; right: 10%; height: 70%;
+    background: radial-gradient(ellipse at 50% 0%, rgba(255, 226, 150, .28) 0%, rgba(255, 210, 120, .08) 45%, transparent 70%);
+    pointer-events: none; z-index: 0;
+  }
+  .grid > li::after {   /* 照明器具 */
+    content: ""; position: absolute; top: 0; left: 50%; width: 34px; height: 8px;
+    transform: translateX(-50%); border-radius: 0 0 8px 8px;
+    background: linear-gradient(#5a4a2a, #2a2014); box-shadow: 0 4px 10px rgba(255, 220, 140, .6);
+  }
+  .card {
+    position: relative; z-index: 1;
+    border: 0; border-radius: 2px; background: transparent; overflow: visible;
+  }
+  .card img {
+    padding: 5px; border-radius: 2px;
+    background: linear-gradient(135deg, #8a6a22, #f0d27a 30%, #a8832c 55%, #f5dc8e 80%, #7a5c1c);
+    box-shadow: 0 10px 22px rgba(0, 0, 0, .7), 0 0 18px rgba(255, 210, 120, .15);
+  }
+  .card span {
+    width: fit-content; max-width: 100%; margin: 10px auto 0; padding: 3px 12px;
+    border: 1px solid rgba(212, 169, 58, .7); border-radius: 3px;
+    background: linear-gradient(#2a1d14, #1a110c);
+    color: #f3dfa6; font-size: .85rem; letter-spacing: .06em; text-align: center;
+  }
 </style>
 </head>
 <body>
