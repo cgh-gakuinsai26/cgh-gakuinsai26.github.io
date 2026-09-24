@@ -1,4 +1,4 @@
-# 学院祭 出店ポスター
+# 学院祭 出展ポスター
 
 公開URL: https://cgh-gakuinsai26.github.io/
 
