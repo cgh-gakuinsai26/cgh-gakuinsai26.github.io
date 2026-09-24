@@ -4,27 +4,31 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
-<meta name="theme-color" content="#1f3a5f">
+<meta name="theme-color" content="#7a0910">
 <title>学院祭 出展ポスター</title>
 <style>
   :root {
-    --bg: #f5f3ee;
+    --bg: #fbf6ec;
     --surface: #ffffff;
-    --text: #1d1d1f;
-    --muted: #6b6b70;
-    --line: #e2dfd7;
-    --accent: #1f3a5f;
+    --text: #2a1a14;
+    --muted: #7a6358;
+    --line: #eadcc2;
+    --accent: #a8121a;
     --accent-text: #ffffff;
+    --gold: #c9a13b;
+    --header-bg: linear-gradient(180deg, #7a0910 0%, #a8121a 100%);
   }
   @media (prefers-color-scheme: dark) {
     :root {
-      --bg: #141416;
-      --surface: #1f1f23;
-      --text: #f2f2f4;
-      --muted: #a0a0a8;
-      --line: #2e2e34;
-      --accent: #8fb4e8;
-      --accent-text: #0f1a2a;
+      --bg: #120b08;
+      --surface: #1f1512;
+      --text: #f6ece0;
+      --muted: #bda98f;
+      --line: #3a2a20;
+      --accent: #b3121b;
+      --accent-text: #ffffff;
+      --gold: #d4a93a;
+      --header-bg: linear-gradient(180deg, #4a050a 0%, #7a0910 100%);
     }
   }
   * { box-sizing: border-box; }
@@ -40,9 +44,12 @@
     padding: 20px 16px 12px;
     padding-top: max(20px, env(safe-area-inset-top));
     text-align: center;
+    background: var(--header-bg);
+    border-bottom: 3px solid var(--gold);
+    color: #fff;
   }
-  header h1 { margin: 0; font-size: 1.35rem; letter-spacing: .04em; }
-  header p { margin: 4px 0 0; color: var(--muted); font-size: .85rem; }
+  header h1 { margin: 0; font-size: 1.35rem; letter-spacing: .04em; color: #f3dfa6; }
+  header p { margin: 4px 0 0; color: rgba(255, 255, 255, .85); font-size: .85rem; }
 
   .tabs {
     position: sticky; top: 0; z-index: 10;
@@ -62,7 +69,7 @@
     cursor: pointer;
   }
   .tabs button[aria-selected="true"] {
-    background: var(--accent); color: var(--accent-text); border-color: var(--accent);
+    background: var(--accent); color: var(--accent-text); border-color: var(--gold);
   }
   .tabs .count { font-weight: 400; font-size: .8rem; opacity: .8; margin-left: 4px; }
 
@@ -70,7 +77,7 @@
   .panel[hidden] { display: none; }
   .panel h2 {
     margin: 20px 0 10px; font-size: 1rem; color: var(--muted);
-    border-left: 4px solid var(--accent); padding-left: 8px;
+    border-left: 4px solid var(--gold); padding-left: 8px;
   }
   .grid {
     display: grid;
@@ -131,7 +138,7 @@
   .main-poster { max-width: 480px; margin: 36px auto 0; }
   .main-poster h2 {
     margin: 0 0 10px; font-size: 1rem; color: var(--muted);
-    border-left: 4px solid var(--accent); padding-left: 8px;
+    border-left: 4px solid var(--gold); padding-left: 8px;
   }
   .main-poster .card img { aspect-ratio: auto; object-fit: contain; }
 
