@@ -1,5 +1,9 @@
 // tools/make_images.py が自動生成。表示名を変えたいときは name を書き換える。
 window.POSTERS = {
+  "main": {
+    "id": "main",
+    "name": "学院祭 全体ポスター"
+  },
   "classes": [
     {
       "id": "c1-1",

@@ -1,7 +1,7 @@
 """uploads/ の元画像から posters/full（拡大表示用）と posters/thumb（一覧用）を作る。
 
 ファイル名は「【1-1】ポスター.jpg」「【吹奏楽】ポスター.jpg」の形式を想定。
-【】内が「数字-数字」ならクラス、それ以外は部活として扱う。
+【全体】は学院祭全体のポスター、【】内が「数字-数字」ならクラス、それ以外は部活として扱う。
 使い方: python3 tools/make_images.py  （pip install pillow が必要）
 """
 import json
@@ -36,6 +36,7 @@ CLUBS = [
     ("軽音学部", "lightmusic", "軽音楽部"),
     ("卓球", "tabletennis", "卓球部"),
 ]
+MAIN_KEY = "全体"  # 【全体】ポスター は最初の演出と一覧の下部に表示する
 ZEN = str.maketrans("0123456789", "０１２３４５６７８９")
 
 
@@ -51,6 +52,7 @@ def main():
     club_ids = {key: pid for key, pid, _ in CLUBS}
     club_labels = {key: label for key, _, label in CLUBS}
     classes, clubs = [], {}
+    main_poster = None
     for f in sorted(SRC.iterdir()):
         m = re.search(r"【(.+?)】", unicodedata.normalize("NFC", f.name))
         if not m:
@@ -58,7 +60,9 @@ def main():
             continue
         name = m.group(1)
         is_class = re.fullmatch(r"\d-\d+", name) is not None
-        if is_class:
+        if name == MAIN_KEY:
+            pid = "main"
+        elif is_class:
             pid = "c" + name
         elif name in club_ids:
             pid = club_ids[name]
@@ -75,7 +79,9 @@ def main():
             im = im.convert("RGB")
         save(im, FULL / f"{pid}.jpg", FULL_MAX)
         save(im, THUMB / f"{pid}.jpg", (THUMB_W, THUMB_W * 2))
-        if is_class:
+        if pid == "main":
+            main_poster = {"id": pid, "name": "学院祭 全体ポスター"}
+        elif is_class:
             grade, num = name.split("-")
             classes.append({"id": pid, "name": f"{grade}年{num}組".translate(ZEN),
                             "grade": int(grade), "num": int(num)})
@@ -86,7 +92,7 @@ def main():
     for e in classes:
         del e["num"]
     ordered_clubs = [clubs[n] for n, _, _ in CLUBS if n in clubs]
-    data = {"classes": classes, "clubs": ordered_clubs}
+    data = {"main": main_poster, "classes": classes, "clubs": ordered_clubs}
     (ROOT / "posters" / "data.js").write_text(
         "// tools/make_images.py が自動生成。表示名を変えたいときは name を書き換える。\n"
         "window.POSTERS = " + json.dumps(data, ensure_ascii=False, indent=2) + ";\n",
