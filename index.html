@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#1f3a5f">
-<title>学院祭 ポスター一覧</title>
+<title>学院祭 出店ポスター</title>
 <style>
   :root {
     --bg: #f5f3ee;
@@ -131,7 +131,7 @@
 </head>
 <body>
 <header>
-  <h1>学院祭 ポスター一覧</h1>
+  <h1>学院祭 出店ポスター</h1>
   <p>見たい団体をタップすると大きく表示されます</p>
 </header>
 
@@ -198,7 +198,7 @@
   var classPanel = document.getElementById("panel-class");
   var currentGrade = null, ul = null;
   data.classes.forEach(function (p, i) {
-    var g = p.name.split("-")[0];
+    var g = String(p.grade);
     if (g !== currentGrade) {
       currentGrade = g;
       var h = document.createElement("h2");

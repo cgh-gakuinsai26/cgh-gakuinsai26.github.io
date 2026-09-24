@@ -18,14 +18,25 @@ THUMB = ROOT / "posters" / "thumb"
 FULL_MAX = (1400, 2000)   # 拡大表示用の最大サイズ（幅, 高さ）
 THUMB_W = 360             # 一覧用サムネイルの幅
 
-# 部活の表示順とファイル名用の英字 ID（新しい部活はここに追加）
+# 部活の表示順: (ファイル名の【】内, ファイル名用の英字 ID, 表示名)（新しい部活はここに追加）
 CLUBS = [
-    ("吹奏楽", "brass"), ("軽音学部", "lightmusic"), ("美術部", "art"),
-    ("書道", "calligraphy"), ("華道", "ikebana"), ("茶道", "tea"),
-    ("英語部", "english"), ("生物", "biology"), ("パソコン", "pc"),
-    ("弓道部", "kyudo"), ("卓球", "tabletennis"), ("ハンドボール", "handball"),
-    ("女子サッカー", "wsoccer"), ("女バレ", "wvolley"), ("チア", "cheer"),
+    ("女子サッカー", "wsoccer", "女子サッカー部"),
+    ("華道", "ikebana", "華道部"),
+    ("茶道", "tea", "茶道部"),
+    ("書道", "calligraphy", "書道部"),
+    ("英語部", "english", "英語部"),
+    ("パソコン", "pc", "パソコン部"),
+    ("生物", "biology", "生物部"),
+    ("美術部", "art", "美術部"),
+    ("弓道部", "kyudo", "弓道部"),
+    ("ハンドボール", "handball", "ハンドボール部"),
+    ("女バレ", "wvolley", "女子バレーボール部"),
+    ("チア", "cheer", "チアリーディング部"),
+    ("吹奏楽", "brass", "吹奏楽部"),
+    ("軽音学部", "lightmusic", "軽音楽部"),
+    ("卓球", "tabletennis", "卓球部"),
 ]
+ZEN = str.maketrans("0123456789", "０１２３４５６７８９")
 
 
 def save(im, path, size):
@@ -37,7 +48,8 @@ def save(im, path, size):
 def main():
     FULL.mkdir(parents=True, exist_ok=True)
     THUMB.mkdir(parents=True, exist_ok=True)
-    club_ids = dict(CLUBS)
+    club_ids = {key: pid for key, pid, _ in CLUBS}
+    club_labels = {key: label for key, _, label in CLUBS}
     classes, clubs = [], {}
     for f in sorted(SRC.iterdir()):
         m = re.search(r"【(.+?)】", unicodedata.normalize("NFC", f.name))
@@ -63,14 +75,17 @@ def main():
             im = im.convert("RGB")
         save(im, FULL / f"{pid}.jpg", FULL_MAX)
         save(im, THUMB / f"{pid}.jpg", (THUMB_W, THUMB_W * 2))
-        entry = {"id": pid, "name": name}
         if is_class:
-            classes.append(entry)
+            grade, num = name.split("-")
+            classes.append({"id": pid, "name": f"{grade}年{num}組".translate(ZEN),
+                            "grade": int(grade), "num": int(num)})
         else:
-            clubs[name] = entry
+            clubs[name] = {"id": pid, "name": club_labels[name]}
 
-    classes.sort(key=lambda e: tuple(int(x) for x in e["name"].split("-")))
-    ordered_clubs = [clubs[n] for n, _ in CLUBS if n in clubs]
+    classes.sort(key=lambda e: (e["grade"], e["num"]))
+    for e in classes:
+        del e["num"]
+    ordered_clubs = [clubs[n] for n, _, _ in CLUBS if n in clubs]
     data = {"classes": classes, "clubs": ordered_clubs}
     (ROOT / "posters" / "data.js").write_text(
         "// tools/make_images.py が自動生成。表示名を変えたいときは name を書き換える。\n"
