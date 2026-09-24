@@ -4,32 +4,21 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
-<meta name="theme-color" content="#7a0910">
+<meta name="theme-color" content="#4a050a">
 <title>学院祭 出展ポスター</title>
 <style>
+  /* 常にダーク表示 */
   :root {
-    --bg: #fbf6ec;
-    --surface: #ffffff;
-    --text: #2a1a14;
-    --muted: #7a6358;
-    --line: #eadcc2;
-    --accent: #a8121a;
+    color-scheme: dark;
+    --bg: #120b08;
+    --surface: #1f1512;
+    --text: #f6ece0;
+    --muted: #bda98f;
+    --line: #3a2a20;
+    --accent: #b3121b;
     --accent-text: #ffffff;
-    --gold: #c9a13b;
-    --header-bg: linear-gradient(180deg, #7a0910 0%, #a8121a 100%);
-  }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #120b08;
-      --surface: #1f1512;
-      --text: #f6ece0;
-      --muted: #bda98f;
-      --line: #3a2a20;
-      --accent: #b3121b;
-      --accent-text: #ffffff;
-      --gold: #d4a93a;
-      --header-bg: linear-gradient(180deg, #4a050a 0%, #7a0910 100%);
-    }
+    --gold: #d4a93a;
+    --header-bg: linear-gradient(180deg, #4a050a 0%, #7a0910 100%);
   }
   * { box-sizing: border-box; }
   html { -webkit-text-size-adjust: 100%; }
@@ -160,7 +149,7 @@
   }
   .splash-poster {
     position: relative; z-index: 1;
-    max-width: min(88vw, 520px); max-height: 78vh; max-height: 78dvh;
+    max-width: min(80vw, 480px); max-height: 72vh; max-height: 72dvh;
     border-radius: 6px;
     box-shadow: 0 0 60px rgba(255, 200, 80, .45), 0 0 0 2px rgba(255, 215, 120, .6);
     opacity: 0; transform: scale(.92);
@@ -175,8 +164,13 @@
     animation-duration: 1.6s; animation-timing-function: cubic-bezier(.7, 0, .3, 1);
     animation-delay: .5s; animation-fill-mode: forwards;
   }
-  .curtain-left { left: 0; animation-name: open-left; border-right: 3px solid #d4a93a; }
-  .curtain-right { right: 0; animation-name: open-right; border-left: 3px solid #d4a93a; }
+  /* 幕本体は clip-path で形を変え、外側の wrap の drop-shadow で金の縁と影を付ける */
+  .curtain-wrap { position: absolute; top: 0; bottom: 0; width: 51%; z-index: 3; }
+  .curtain-wrap.left { left: 0; filter: drop-shadow(2px 0 0 #d4a93a) drop-shadow(6px 6px 10px rgba(0,0,0,.55)); }
+  .curtain-wrap.right { right: 0; filter: drop-shadow(-2px 0 0 #d4a93a) drop-shadow(-6px 6px 10px rgba(0,0,0,.55)); }
+  .curtain-wrap .curtain { left: 0; right: 0; width: auto; }
+  .curtain-left { animation-name: open-left; }
+  .curtain-right { animation-name: open-right; }
   .valance {
     position: absolute; top: 0; left: 0; right: 0; height: 7vh; z-index: 4;
     background: linear-gradient(180deg, #7a0910, #a8121a 70%, #d4a93a 70%, #d4a93a 78%, transparent 78%);
@@ -199,8 +193,14 @@
     border: 1px solid rgba(212, 169, 58, .7); border-radius: 999px;
     background: rgba(0,0,0,.4); color: #f3dfa6; font: inherit; font-size: .9rem; cursor: pointer;
   }
-  @keyframes open-left { to { transform: translateX(-100%); } }
-  @keyframes open-right { to { transform: translateX(100%); } }
+  @keyframes open-left {
+    from { -webkit-clip-path: polygon(0.0% 0.0%, 100.0% 0.0%, 100.0% 5.0%, 100.0% 10.0%, 100.0% 15.0%, 100.0% 20.0%, 100.0% 25.0%, 100.0% 30.0%, 100.0% 35.0%, 100.0% 40.0%, 100.0% 45.0%, 100.0% 50.0%, 100.0% 55.0%, 100.0% 60.0%, 100.0% 65.0%, 100.0% 70.0%, 100.0% 75.0%, 100.0% 80.0%, 100.0% 85.0%, 100.0% 90.0%, 100.0% 95.0%, 100.0% 100.0%, 0.0% 100.0%); clip-path: polygon(0.0% 0.0%, 100.0% 0.0%, 100.0% 5.0%, 100.0% 10.0%, 100.0% 15.0%, 100.0% 20.0%, 100.0% 25.0%, 100.0% 30.0%, 100.0% 35.0%, 100.0% 40.0%, 100.0% 45.0%, 100.0% 50.0%, 100.0% 55.0%, 100.0% 60.0%, 100.0% 65.0%, 100.0% 70.0%, 100.0% 75.0%, 100.0% 80.0%, 100.0% 85.0%, 100.0% 90.0%, 100.0% 95.0%, 100.0% 100.0%, 0.0% 100.0%); }
+    to { -webkit-clip-path: polygon(0.0% 0.0%, 42.0% 0.0%, 41.9% 4.6%, 41.5% 9.1%, 40.8% 13.5%, 39.9% 17.9%, 38.8% 22.2%, 37.4% 26.3%, 35.8% 30.3%, 34.0% 34.1%, 31.9% 37.7%, 29.7% 41.0%, 27.3% 44.1%, 24.7% 46.9%, 21.9% 49.5%, 19.1% 51.7%, 16.1% 53.6%, 13.0% 55.2%, 9.8% 56.4%, 6.6% 57.3%, 3.3% 57.8%, 0.0% 58.0%, 0.0% 100.0%); clip-path: polygon(0.0% 0.0%, 42.0% 0.0%, 41.9% 4.6%, 41.5% 9.1%, 40.8% 13.5%, 39.9% 17.9%, 38.8% 22.2%, 37.4% 26.3%, 35.8% 30.3%, 34.0% 34.1%, 31.9% 37.7%, 29.7% 41.0%, 27.3% 44.1%, 24.7% 46.9%, 21.9% 49.5%, 19.1% 51.7%, 16.1% 53.6%, 13.0% 55.2%, 9.8% 56.4%, 6.6% 57.3%, 3.3% 57.8%, 0.0% 58.0%, 0.0% 100.0%); }
+  }
+  @keyframes open-right {
+    from { -webkit-clip-path: polygon(100.0% 0.0%, 0.0% 0.0%, 0.0% 5.0%, 0.0% 10.0%, 0.0% 15.0%, 0.0% 20.0%, 0.0% 25.0%, 0.0% 30.0%, 0.0% 35.0%, 0.0% 40.0%, 0.0% 45.0%, 0.0% 50.0%, 0.0% 55.0%, 0.0% 60.0%, 0.0% 65.0%, 0.0% 70.0%, 0.0% 75.0%, 0.0% 80.0%, 0.0% 85.0%, 0.0% 90.0%, 0.0% 95.0%, 0.0% 100.0%, 100.0% 100.0%); clip-path: polygon(100.0% 0.0%, 0.0% 0.0%, 0.0% 5.0%, 0.0% 10.0%, 0.0% 15.0%, 0.0% 20.0%, 0.0% 25.0%, 0.0% 30.0%, 0.0% 35.0%, 0.0% 40.0%, 0.0% 45.0%, 0.0% 50.0%, 0.0% 55.0%, 0.0% 60.0%, 0.0% 65.0%, 0.0% 70.0%, 0.0% 75.0%, 0.0% 80.0%, 0.0% 85.0%, 0.0% 90.0%, 0.0% 95.0%, 0.0% 100.0%, 100.0% 100.0%); }
+    to { -webkit-clip-path: polygon(100.0% 0.0%, 58.0% 0.0%, 58.1% 4.6%, 58.5% 9.1%, 59.2% 13.5%, 60.1% 17.9%, 61.2% 22.2%, 62.6% 26.3%, 64.2% 30.3%, 66.0% 34.1%, 68.1% 37.7%, 70.3% 41.0%, 72.7% 44.1%, 75.3% 46.9%, 78.1% 49.5%, 80.9% 51.7%, 83.9% 53.6%, 87.0% 55.2%, 90.2% 56.4%, 93.4% 57.3%, 96.7% 57.8%, 100.0% 58.0%, 100.0% 100.0%); clip-path: polygon(100.0% 0.0%, 58.0% 0.0%, 58.1% 4.6%, 58.5% 9.1%, 59.2% 13.5%, 60.1% 17.9%, 61.2% 22.2%, 62.6% 26.3%, 64.2% 30.3%, 66.0% 34.1%, 68.1% 37.7%, 70.3% 41.0%, 72.7% 44.1%, 75.3% 46.9%, 78.1% 49.5%, 80.9% 51.7%, 83.9% 53.6%, 87.0% 55.2%, 90.2% 56.4%, 93.4% 57.3%, 96.7% 57.8%, 100.0% 58.0%, 100.0% 100.0%); }
+  }
   @keyframes poster { to { opacity: 1; transform: scale(1); } }
   @keyframes spot { to { opacity: 1; } }
   @keyframes sparkle {
@@ -208,7 +208,7 @@
     50% { opacity: 1; transform: scale(1); }
   }
   @media (prefers-reduced-motion: reduce) {
-    .curtain, .valance, .sparkle { display: none; }
+    .curtain-wrap, .valance, .sparkle { display: none; }
     .splash-poster, .splash-spot { animation-duration: .01s; animation-delay: 0s; }
   }
 </style>
@@ -217,8 +217,8 @@
 <div class="splash" id="splash" hidden>
   <div class="splash-spot"></div>
   <img class="splash-poster" id="splash-img" alt="学院祭 全体ポスター">
-  <div class="curtain curtain-left"></div>
-  <div class="curtain curtain-right"></div>
+  <div class="curtain-wrap left"><div class="curtain curtain-left"></div></div>
+  <div class="curtain-wrap right"><div class="curtain curtain-right"></div></div>
   <div class="valance"></div>
   <div class="splash-ui">
     <div class="splash-bar"><i id="splash-bar"></i></div>
@@ -420,7 +420,7 @@
     if (!data.main || location.hash) return;
     var splash = document.getElementById("splash");
     var bar = document.getElementById("splash-bar");
-    var OPEN_MS = 2100, HOLD_MS = 4500;
+    var OPEN_MS = 2100, HOLD_MS = 2400;
     var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduce) OPEN_MS = 300;
     document.getElementById("splash-img").src = "posters/full/" + data.main.id + ".jpg";
