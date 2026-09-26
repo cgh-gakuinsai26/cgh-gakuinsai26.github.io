@@ -312,6 +312,8 @@
 <script>
 (function () {
   var data = window.POSTERS || { classes: [], clubs: [] };
+  // 画像の URL。差し替え時に古い画像がキャッシュで残らないよう、内容ごとの版番号 v を付ける
+  function src(kind, p) { return "posters/" + kind + "/" + p.id + ".jpg" + (p.v ? "?v=" + p.v : ""); }
   var lists = { "class": data.classes, "club": data.clubs, "main": data.main ? [data.main] : [] };
 
   function card(p, tab, index) {
@@ -321,7 +323,7 @@
     btn.className = "card";
     btn.addEventListener("click", function () { openViewer(tab, index); });
     var img = document.createElement("img");
-    img.src = "posters/thumb/" + p.id + ".jpg";
+    img.src = src("thumb", p);
     img.alt = p.name + " のポスター";
     img.loading = "lazy";
     img.decoding = "async";
@@ -365,7 +367,7 @@
   if (data.main) {
     var mainSec = document.getElementById("main-poster");
     var mainCard = card(data.main, "main", 0).firstChild;
-    mainCard.querySelector("img").src = "posters/full/" + data.main.id + ".jpg";
+    mainCard.querySelector("img").src = src("full", data.main);
     mainCard.querySelector("span").textContent = "タップで拡大";
     mainSec.appendChild(mainCard);
     mainSec.hidden = false;
@@ -403,13 +405,13 @@
   function render() {
     var list = lists[cur.tab];
     var p = list[cur.index];
-    vImg.src = "posters/full/" + p.id + ".jpg";
+    vImg.src = src("full", p);
     vImg.alt = p.name + " のポスター";
     vTitle.textContent = p.name;
     vPos.textContent = (cur.index + 1) + " / " + list.length;
     // 前後の画像を先読み
     [cur.index - 1, cur.index + 1].forEach(function (j) {
-      if (list[j]) new Image().src = "posters/full/" + list[j].id + ".jpg";
+      if (list[j]) new Image().src = src("full", list[j]);
     });
   }
   function move(step) {
@@ -469,7 +471,7 @@
     var OPEN_MS = 2300, HOLD_MS = 2400;
     var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduce) OPEN_MS = 300;
-    document.getElementById("splash-img").src = "posters/full/" + data.main.id + ".jpg";
+    document.getElementById("splash-img").src = src("full", data.main);
     for (var i = 0; i < 18 && !reduce; i++) {
       var s = document.createElement("span");
       s.className = "sparkle";

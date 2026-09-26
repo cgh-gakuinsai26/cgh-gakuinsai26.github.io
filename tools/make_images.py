@@ -4,6 +4,7 @@
 【全体】は学院祭全体のポスター、【】内が「数字-数字」ならクラス、それ以外は部活として扱う。
 使い方: python3 tools/make_images.py  （pip install pillow が必要）
 """
+import hashlib
 import json
 import re
 import unicodedata
@@ -79,14 +80,16 @@ def main():
             im = im.convert("RGB")
         save(im, FULL / f"{pid}.jpg", FULL_MAX)
         save(im, THUMB / f"{pid}.jpg", (THUMB_W, THUMB_W * 2))
+        # 画像の内容から版番号を作る（ページ側で ?v= に付け、差し替え時のキャッシュ残りを防ぐ）
+        v = hashlib.md5((FULL / f"{pid}.jpg").read_bytes()).hexdigest()[:8]
         if pid == "main":
-            main_poster = {"id": pid, "name": "学院祭 全体ポスター"}
+            main_poster = {"id": pid, "name": "学院祭 全体ポスター", "v": v}
         elif is_class:
             grade, num = name.split("-")
             classes.append({"id": pid, "name": f"{grade}年{num}組".translate(ZEN),
-                            "grade": int(grade), "num": int(num)})
+                            "grade": int(grade), "num": int(num), "v": v})
         else:
-            clubs[name] = {"id": pid, "name": club_labels[name]}
+            clubs[name] = {"id": pid, "name": club_labels[name], "v": v}
 
     classes.sort(key=lambda e: (e["grade"], e["num"]))
     for e in classes:
